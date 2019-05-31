@@ -1,5 +1,5 @@
 # Learn Python curse with software-testing
-[![Alt text](http://software-testing.ru/images/stories/stru.png)](http://software-testing.ru/)
+[![logo](http://software-testing.ru/images/stories/stru.png)](http://software-testing.ru/)
 
 1. [Основы языка](#one)
 2. [Программирование для тестировщика](#two)
