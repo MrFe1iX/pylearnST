@@ -1,8 +1,5 @@
 # Learn Python curse with software-testing
-[![img][logo]][st]
 
-[logo]:https://testconf.ru/wp-content/uploads/2019/03/software_testing-min.png
-[st]:http://software-testing.ru
 
 
 1. [Основы языка](#one)
