@@ -2,7 +2,7 @@
 [![Alt text](http://software-testing.ru/images/stories/stru.png)](http://software-testing.ru/)
 
 1. [Основы языка](#one)
-2. [Программирование для тестировщика](two)
+2. [Программирование для тестировщика](#two)
 
 
 ### <a name="one"></a> Основы языка Python
