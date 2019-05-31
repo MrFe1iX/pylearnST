@@ -1,11 +1,11 @@
 _author_ = 'Dmitry'
 
 
-def Hello():
-    print('Hello World!')
+def Hello(s):
+    print('Hello, ' + s + '!')
 
 
 
-Hello()
-Hello()
-Hello()
+Hello('World')
+Hello('Python')
+Hello('Dmitry')
