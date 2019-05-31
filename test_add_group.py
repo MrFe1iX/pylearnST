@@ -2,6 +2,7 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
+import unittest
 
 
 class TestAddGroup(unittest.TestCase):
@@ -9,16 +10,7 @@ class TestAddGroup(unittest.TestCase):
         self.wd = webdriver.Firefox()
         self.wd.implicitly_wait(30)
 
-    def test_add_group(self):
-        wd = self.wd
-        self.open_home_page(wd)
-        self.login(wd)
-        self.create_group(wd)
-        self.return_to_groups_page(wd)
-        self.logout(wd)
-
     def logout(self, wd):
-        # Выйти
         wd.find_element_by_link_text("Logout").click()
 
     def return_to_groups_page(self, wd):
@@ -40,7 +32,6 @@ class TestAddGroup(unittest.TestCase):
         wd.find_element_by_name("submit").click()
 
     def login(self, wd):
-        # Логин
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys("admin")
         wd.find_element_by_name("pass").clear()
@@ -48,9 +39,19 @@ class TestAddGroup(unittest.TestCase):
         wd.find_element_by_xpath("//input[@value='Login']").click()
 
     def open_home_page(self, wd):
-        # Открыта дом страница
         wd.get("http://localhost/addressbook/")
+
+    def test_add_group(self):
+        wd = self.wd
+        self.open_home_page(wd)
+        self.login(wd)
+        self.create_group(wd)
+        self.return_to_groups_page(wd)
+        self.logout(wd)
 
     def tearDown(self):
         self.wd.quit()
 
+
+if __name__ == '__main__':
+    unittest.main()
