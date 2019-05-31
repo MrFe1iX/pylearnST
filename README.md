@@ -1,7 +1,7 @@
 # Learn Python curse with software-testing
 [![img][logo]][st]
 
-[logo]:http://software-testing.ru/images/stories/stru.png
+[logo]:https://testconf.ru/wp-content/uploads/2019/03/software_testing-min.png
 [st]:http://software-testing.ru
 
 
