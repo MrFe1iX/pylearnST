@@ -13,8 +13,8 @@ class TestAddUser(unittest.TestCase):
         wd = self.wd
         self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
-        self.add_user_info(wd, User(firstname="Maxim", middlename="M", lastname="Semenov", nick="max", email="test@test.ru",
-                           address="Moskovskaz 12", month=5, day="6", year="1984"))
+        self.add_user_info(wd, User(firstname="Test", middlename="OlO", lastname="Testovich", nick="tes", email="test@test.ru",
+                           address="Moskovskaz 12", month=2, day="10", year="1984"))
         self.logout(wd)
 
     def logout(self, wd):
