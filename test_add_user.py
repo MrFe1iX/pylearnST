@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
-from obj_class import Contact
+from contact import Contact
 import unittest
 
 
