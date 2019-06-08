@@ -11,7 +11,6 @@ class TestAddUser(unittest.TestCase):
 
     def test_add_user(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.add_user_info(wd, Contact(firstname="Test", middlename="OlO", lastname="Testovich", nick="tes", email="test@test.ru",
                            address="Moskovskaz 12", month=2, day="10", year="1984"))
@@ -47,10 +46,8 @@ class TestAddUser(unittest.TestCase):
         # Save
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
 
-    def open_home_page(self, wd):
-        wd.get("http://localhost/addressbook/")
-
     def login(self, wd, username, password):
+        wd.get("http://localhost/addressbook/")
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
         wd.find_element_by_name("pass").clear()
