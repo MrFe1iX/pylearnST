@@ -1,57 +1,24 @@
 # -*- coding: utf-8 -*-
-from selenium import webdriver
-import unittest
+import pytest
 from group import Group
+from application import Application
 
 
-class TestAddGroup(unittest.TestCase):
-    def setUp(self):
-        self.wd = webdriver.Firefox()
-        self.wd.implicitly_wait(30)
-
-    def logout(self):
-        wd = self.wd
-        wd.find_element_by_link_text("Logout").click()
-
-    def create_group(self, group):
-        wd = self.wd
-        # Открыть группы
-        wd.find_element_by_link_text("groups").click()
-        # Нажать на новая группа и заполнение
-        wd.find_element_by_name("new").click()
-        wd.find_element_by_name("group_name").click()
-        wd.find_element_by_name("group_name").clear()
-        wd.find_element_by_name("group_name").send_keys(group.name)
-        wd.find_element_by_name("group_header").clear()
-        wd.find_element_by_name("group_header").send_keys(group.header)
-        wd.find_element_by_name("group_footer").clear()
-        wd.find_element_by_name("group_footer").send_keys(group.footer)
-        # Сохранить
-        wd.find_element_by_name("submit").click()
-        wd.find_element_by_link_text("group page").click()
-
-    def login(self, username, password):
-        wd = self.wd
-        wd.get("http://localhost/addressbook/")
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys(username)
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys(password)
-        wd.find_element_by_xpath("//input[@value='Login']").click()
-
-    def test_add_group(self):
-        self.login(username="admin", password="secret")
-        self.create_group(Group(name="Testing", header="OLOLOLOLOLO", footer="SUPER CLASS"))
-        self.logout()
-
-    def test_none_group(self):
-        self.login(username="admin", password="secret")
-        self.create_group(Group(name="", header="", footer=""))
-        self.logout()
-
-    def tearDown(self):
-        self.wd.quit()
+@pytest.fixture
+def app(request):
+    fixture = Application()
+    request.addfinalizer(fixture.death)
+    return fixture
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_add_group(app):
+    app.login(username="admin", password="secret")
+    app.create_group(Group(name="Testing", header="OLOLOLOLOLO", footer="SUPER CLASS"))
+    app.logout()
+
+
+def test_none_group(app):
+    app.login(username="admin", password="secret")
+    app.create_group(Group(name="", header="", footer=""))
+    app.logout()
+
