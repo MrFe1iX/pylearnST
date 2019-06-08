@@ -9,10 +9,12 @@ class TestAddGroup(unittest.TestCase):
         self.wd = webdriver.Firefox()
         self.wd.implicitly_wait(30)
 
-    def logout(self, wd):
+    def logout(self):
+        wd = self.wd
         wd.find_element_by_link_text("Logout").click()
 
-    def create_group(self, wd, group):
+    def create_group(self, group):
+        wd = self.wd
         # Открыть группы
         wd.find_element_by_link_text("groups").click()
         # Нажать на новая группа и заполнение
@@ -28,7 +30,8 @@ class TestAddGroup(unittest.TestCase):
         wd.find_element_by_name("submit").click()
         wd.find_element_by_link_text("group page").click()
 
-    def login(self, wd, username, password):
+    def login(self, username, password):
+        wd = self.wd
         wd.get("http://localhost/addressbook/")
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -37,16 +40,14 @@ class TestAddGroup(unittest.TestCase):
         wd.find_element_by_xpath("//input[@value='Login']").click()
 
     def test_add_group(self):
-        wd = self.wd
-        self.login(wd, username="admin", password="secret")
-        self.create_group(wd, Group(name="Testing", header="OLOLOLOLOLO", footer="SUPER CLASS"))
-        self.logout(wd)
+        self.login(username="admin", password="secret")
+        self.create_group(Group(name="Testing", header="OLOLOLOLOLO", footer="SUPER CLASS"))
+        self.logout()
 
     def test_none_group(self):
-        wd = self.wd
-        self.login(wd, username="admin", password="secret")
-        self.create_group(wd, Group(name="", header="", footer=""))
-        self.logout(wd)
+        self.login(username="admin", password="secret")
+        self.create_group(Group(name="", header="", footer=""))
+        self.logout()
 
     def tearDown(self):
         self.wd.quit()

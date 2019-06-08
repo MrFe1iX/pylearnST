@@ -10,16 +10,18 @@ class TestAddUser(unittest.TestCase):
         self.wd.implicitly_wait(30)
 
     def test_add_user(self):
-        wd = self.wd
-        self.login(wd, username="admin", password="secret")
-        self.add_user_info(wd, Contact(firstname="Test", middlename="OlO", lastname="Testovich", nick="tes", email="test@test.ru",
-                           address="Moskovskaz 12", month=2, day="10", year="1984"))
-        self.logout(wd)
+        self.login(username="admin", password="secret")
+        self.add_user_info(Contact(firstname="Test", middlename="OlO",
+                                   lastname="Testovich", nick="tes", email="test@test.ru",
+                                   address="Moskovskaz 12", month=2, day="10", year="1984"))
+        self.logout()
 
-    def logout(self, wd):
+    def logout(self):
+        wd = self.wd
         wd.find_element_by_link_text("Logout").click()
 
-    def add_user_info(self, wd, contact):
+    def add_user_info(self, contact):
+        wd = self.wd
         month_book = {1: "January", 2: "February", 3: "March", 4: "April", 5: "May", 6: "June",
                       7: "July", 8: "August", 9: "September", 10: "October", 11: "November", 12: "December"
                       }
@@ -46,7 +48,8 @@ class TestAddUser(unittest.TestCase):
         # Save
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
 
-    def login(self, wd, username, password):
+    def login(self, username, password):
+        wd = self.wd
         wd.get("http://localhost/addressbook/")
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
