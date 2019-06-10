@@ -8,3 +8,4 @@ def test_add_user(app):
                                 lastname="Testovich", nick="tes", email="test@test.ru",
                                 address="Moskovskaz 12", month=2, day="10", year="1984"))
     app.session.logout()
+
