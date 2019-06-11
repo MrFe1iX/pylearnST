@@ -50,6 +50,8 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
+        wd.switch_to_alert().accept()
+        self.app.open_home_page
 
     def del_all_user(self):
         wd = self.app.wd
