@@ -13,8 +13,8 @@ def test_edit_firstname(app):
 
 
 def test_edit_middlename(app):
-    app.contact.edit_user_info(Contact(middlename="Oloha"))
+    app.contact.edit_user_info(Contact(middlename="Oloha+++OKs"))
 
 
 def test_edit_email(app):
-    app.contact.edit_user_info(Contact(email="Oloha"))
+    app.contact.edit_user_info(Contact(email="Oloha@mmmmmmail.ru"))

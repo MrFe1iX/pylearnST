@@ -49,13 +49,16 @@ class ContactHelper:
 
     def edit_user_info(self, new_user_data):
         wd = self.app.wd
+        self.app.open_home_page()
         wd.find_element_by_css_selector("img[alt='Edit']").click()
         self.fill_user_form(new_user_data)
         # Save
         wd.find_element_by_name("update").click()
+        self.app.open_home_page()
 
     def del_first_user(self):
         wd = self.app.wd
+        self.app.open_home_page()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to.alert.accept()
