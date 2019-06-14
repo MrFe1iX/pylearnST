@@ -31,7 +31,7 @@ class ContactHelper:
         wd.find_element_by_name("address").clear()
         wd.find_element_by_name("address").send_keys(contact.address)
 
-    def add_user_info(self, contact):
+    def add_new_user(self, contact):
         wd = self.app.wd
         # Click on add user
         wd.find_element_by_link_text("add new").click()
@@ -46,7 +46,7 @@ class ContactHelper:
         # Save
         wd.find_element_by_name("update").click()
 
-    def del_edit_user(self):
+    def del_first_user(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
