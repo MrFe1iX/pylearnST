@@ -8,28 +8,36 @@ class ContactHelper:
 
     def fill_user_form(self, contact):
         wd = self.app.wd
+        self.edit_field_value("firstname", contact.firstname)
+        self.edit_field_value("middlename", contact.middlename)
+        self.edit_field_value("lastname", contact.lastname)
+        self.edit_field_value("nickname", contact.nick)
+        self.edit_field_value("email", contact.email)
+        self.fill_user_form_day(contact.day)
+        self.fill_user_form_month(contact.month)
+        self.edit_field_value("byear", contact.year)
+        self.edit_field_value("address", contact.address)
+
+    def fill_user_form_day(self, field_day):
+        wd = self.app.wd
+        if field_day is not None:
+            wd.find_element_by_css_selector("option[value=" + "'" + str(field_day) + "'" + "]").click()
+
+    def fill_user_form_month(self, field_month):
+        wd = self.app.wd
         month_book = {1: "January", 2: "February", 3: "March",
                       4: "April", 5: "May", 6: "June",
                       7: "July", 8: "August", 9: "September", 10: "October",
                       11: "November", 12: "December"
                       }
-        wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(contact.firstname)
-        wd.find_element_by_name("middlename").clear()
-        wd.find_element_by_name("middlename").send_keys(contact.middlename)
-        wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys(contact.lastname)
-        wd.find_element_by_name("nickname").clear()
-        wd.find_element_by_name("nickname").send_keys(contact.nick)
-        wd.find_element_by_name("email").clear()
-        wd.find_element_by_name("email").send_keys(contact.email)
-        wd.find_element_by_css_selector("option[value=" + "'" + str(contact.day) + "'" + "]").click()
-        wd.find_element_by_name("bmonth").click()
-        wd.find_element_by_css_selector("option[value=" + month_book[contact.month] + "]").click()
-        wd.find_element_by_name("byear").clear()
-        wd.find_element_by_name("byear").send_keys(contact.year)
-        wd.find_element_by_name("address").clear()
-        wd.find_element_by_name("address").send_keys(contact.address)
+        if field_month is not None:
+            wd.find_element_by_css_selector("option[value=" + month_book[field_month] + "]").click()
+
+    def edit_field_value(self, field_name, text):
+        wd = self.app.wd
+        if text is not None:
+            wd.find_element_by_name(field_name).clear()
+            wd.find_element_by_name(field_name).send_keys(text)
 
     def add_new_user(self, contact):
         wd = self.app.wd
@@ -39,10 +47,10 @@ class ContactHelper:
         # Save
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
 
-    def edit_user_info(self, contact):
+    def edit_user_info(self, new_user_data):
         wd = self.app.wd
         wd.find_element_by_css_selector("img[alt='Edit']").click()
-        self.fill_user_form(contact)
+        self.fill_user_form(new_user_data)
         # Save
         wd.find_element_by_name("update").click()
 
