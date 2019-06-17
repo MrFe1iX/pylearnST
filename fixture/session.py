@@ -34,6 +34,7 @@ class SessionHelper:
         wd.find_element_by_name("pass").clear()
         wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_xpath("//input[@value='Login']").click()
+        sleep(0.1)
 
     def ensure_login(self, username, password):
         wd = self.app.wd
