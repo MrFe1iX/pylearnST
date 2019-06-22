@@ -1,7 +1,7 @@
 from deef import sqrt
 
 
-def solve(a,b,c):
+def solve(a, b, c):
     d = b*b - 4*a*c
     if d < 0:
         print("No solution")
