@@ -1,4 +1,5 @@
 from time import sleep
+from model.contact import Contact
 
 
 class ContactHelper:
@@ -75,3 +76,15 @@ class ContactHelper:
         wd = self.app.wd
         self.app.open_home_page()
         return len(wd.find_elements_by_css_selector("img[alt='Edit']"))
+
+    def get_user_list(self):
+        wd = self.app.wd
+        self.app.open_home_page()
+        user = []
+        for element in wd.find_elements_by_css_selector("tr[name='entry']"):
+            first_n = element.text
+            last_n = element.text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            user.append(Contact(firstname=first_n, lastname=last_n, id=id))
+
+        return user
