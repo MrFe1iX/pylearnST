@@ -4,15 +4,19 @@ from model.contact import Contact
 
 def test_edit_first_user(app):
     old_user_list = app.contact.get_user_list()
+    user = Contact(firstname="New", middlename="Maxim", lastname="Speders",
+                                       nick="Nos", email="ylika@mail.cru", address="Josedr sa 21",
+                                       month=6, day="12", year="1966")
+    user.id = old_user_list[0].id
     if app.contact.count() == 0:
         app.contact.add_new_user(Contact(firstname="111", middlename="111", lastname="111",
                                        nick="11", email="ylika@mail.cru", address="aJocxvvxcsedr s 21",
                                        month=6, day="11", year="1998"))
-    app.contact.edit_user_info(Contact(firstname="New", middlename="Maxim", lastname="Speders",
-                                       nick="Nos", email="ylika@mail.cru", address="Josedr sa 21",
-                                       month=6, day="12", year="1966"))
+    app.contact.edit_user_info(user)
     new_user_list = app.contact.get_user_list()
     assert len(old_user_list) == len(new_user_list)
+    old_user_list[0] = user
+    assert sorted(old_user_list, key=Contact.id_or_max) == sorted(new_user_list, key=Contact.id_or_max)
 
 
 def test_edit_firstname(app):
