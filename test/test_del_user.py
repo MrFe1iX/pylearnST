@@ -12,6 +12,8 @@ def test_del_first_user(app):
     app.contact.del_first_user()
     new_user_list = app.contact.get_user_list()
     assert len(old_user_list) - 1 == len(new_user_list)
+    old_user_list[0:1] = []
+    assert old_user_list == new_user_list
 
 
 # def test_del_all_user(app):

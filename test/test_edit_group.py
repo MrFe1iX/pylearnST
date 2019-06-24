@@ -3,11 +3,15 @@ from model.group import Group
 
 def test_edit_first_group(app):
     old_group = app.group.get_group_list()
+    group = Group(name="EditTest", header="Edit test", footer="Edit test")
+    group.id = old_group[0].id
     if app.group.count() == 0:
         app.group.create(Group(name="Lost", header="head", footer="foot"))
-    app.group.edit_first(Group(name="EditTest", header="Edit test", footer="Edit test"))
+    app.group.edit_first(group)
     new_group = app.group.get_group_list()
     assert len(old_group) == len(new_group)
+    old_group[0] = group
+    assert sorted(old_group, key=Group.id_or_max) == sorted(new_group, key=Group.id_or_max)
 
 
 def test_edit_name(app):

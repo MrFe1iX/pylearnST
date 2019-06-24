@@ -63,6 +63,7 @@ class ContactHelper:
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to.alert.accept()
+        wd.find_element_by_css_selector("div.msgbox")
         self.app.open_home_page()
 
     def del_all_user(self):
@@ -82,9 +83,10 @@ class ContactHelper:
         self.app.open_home_page()
         user = []
         for element in wd.find_elements_by_css_selector("tr[name='entry']"):
-            first_n = element.text
-            last_n = element.text
+            cells = element.find_elements_by_tag_name("td")
+            first_n = cells[2].text
+            last_n = cells[1].text
             id = element.find_element_by_name("selected[]").get_attribute("value")
-            user.append(Contact(firstname=first_n, lastname=last_n, id=id))
+            user.append(Contact(id=id, firstname=first_n, lastname=last_n))
 
         return user
