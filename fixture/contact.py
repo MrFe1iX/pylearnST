@@ -49,26 +49,53 @@ class ContactHelper:
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
         self.user_cache = None
 
-    def edit_user_info(self, new_user_data):
+    def edit_rand_user_info(self, new_user_data, index):
         wd = self.app.wd
-        self.app.open_home_page()
-        wd.find_element_by_css_selector("img[alt='Edit']").click()
+        self.select_some_edit_user(index)
         self.fill_user_form(new_user_data)
         # Save
         wd.find_element_by_name("update").click()
         self.app.open_home_page()
         self.user_cache = None
 
-    def del_first_user(self):
+    def edit_user_info(self, new_user_data):
+        wd = self.app.wd
+        self.select_some_edit_user(0)
+        self.fill_user_form(new_user_data)
+        # Save
+        wd.find_element_by_name("update").click()
+        self.app.open_home_page()
+        self.user_cache = None
+
+    def select_some_edit_user(self, index):
         wd = self.app.wd
         self.app.open_home_page()
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_css_selector("img[alt='Edit']")[index].click()
+
+    def del_some_user(self, index):
+        wd = self.app.wd
+        self.select_some_user(index)
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to.alert.accept()
         sleep(0.3)
         wd.find_element_by_css_selector("div.msgbox")
         self.app.open_home_page()
         self.user_cache = None
+
+    def del_first_user(self):
+        wd = self.app.wd
+        self.select_some_user(0)
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        wd.switch_to.alert.accept()
+        sleep(0.3)
+        wd.find_element_by_css_selector("div.msgbox")
+        self.app.open_home_page()
+        self.user_cache = None
+
+    def select_some_user(self, index):
+        wd = self.app.wd
+        self.app.open_home_page()
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def del_all_user(self):
         wd = self.app.wd
