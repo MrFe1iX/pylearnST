@@ -10,8 +10,8 @@ def test_del_first_user(app):
                                        nick="11", email="ylika@mail.cru", address="aJocxvvxcsedr s 21",
                                        month=6, day="11", year="1998"))
     app.contact.del_first_user()
+    assert len(old_user_list) - 1 == app.contact.count()
     new_user_list = app.contact.get_user_list()
-    assert len(old_user_list) - 1 == len(new_user_list)
     old_user_list[0:1] = []
     assert old_user_list == new_user_list
 

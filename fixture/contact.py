@@ -47,6 +47,7 @@ class ContactHelper:
         self.fill_user_form(contact)
         # Save
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+        self.user_cache = None
 
     def edit_user_info(self, new_user_data):
         wd = self.app.wd
@@ -56,6 +57,7 @@ class ContactHelper:
         # Save
         wd.find_element_by_name("update").click()
         self.app.open_home_page()
+        self.user_cache = None
 
     def del_first_user(self):
         wd = self.app.wd
@@ -63,8 +65,10 @@ class ContactHelper:
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to.alert.accept()
+        sleep(0.3)
         wd.find_element_by_css_selector("div.msgbox")
         self.app.open_home_page()
+        self.user_cache = None
 
     def del_all_user(self):
         wd = self.app.wd
@@ -72,21 +76,25 @@ class ContactHelper:
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to.alert.accept()
         self.app.open_home_page()
+        self.user_cache = None
 
     def count(self):
         wd = self.app.wd
         self.app.open_home_page()
         return len(wd.find_elements_by_css_selector("img[alt='Edit']"))
 
-    def get_user_list(self):
-        wd = self.app.wd
-        self.app.open_home_page()
-        user = []
-        for element in wd.find_elements_by_css_selector("tr[name='entry']"):
-            cells = element.find_elements_by_tag_name("td")
-            first_n = cells[2].text
-            last_n = cells[1].text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            user.append(Contact(id=id, firstname=first_n, lastname=last_n))
+    user_cache = None
 
-        return user
+    def get_user_list(self):
+        if self.user_cache is None:
+            wd = self.app.wd
+            self.app.open_home_page()
+            self.user_cache = []
+            for element in wd.find_elements_by_css_selector("tr[name='entry']"):
+                cells = element.find_elements_by_tag_name("td")
+                first_n = cells[2].text
+                last_n = cells[1].text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.user_cache.append(Contact(id=id, firstname=first_n, lastname=last_n))
+
+        return list(self.user_cache)
