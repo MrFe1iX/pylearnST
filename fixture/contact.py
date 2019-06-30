@@ -128,10 +128,9 @@ class ContactHelper:
                 first_n = cells[2].text
                 last_n = cells[1].text
                 id = element.find_element_by_name("selected[]").get_attribute("value")
-                all_phones = cells[5].text.splitlines()
+                all_phones = cells[5].text
                 self.user_cache.append(Contact(id=id, firstname=first_n, lastname=last_n,
-                                               homephone=all_phones[0], mobilephone=all_phones[1],
-                                               workphone=all_phones[2]))
+                                               all_phones_home_page=all_phones))
 
         return list(self.user_cache)
 
@@ -170,3 +169,12 @@ class ContactHelper:
         mobilephone = re.search("M: (.*)", text).group(1)
         workphone = re.search("W: (.*)", text).group(1)
         return Contact(homephone=homephone, workphone=workphone, mobilephone=mobilephone)
+
+    def merge_phones_like_on_home_page(self, contact):
+        def clear(s):
+            return re.sub("[() -]", "", s)
+
+        return "\n".join(filter(lambda x: x != "",
+                                map(lambda x: clear(x),
+                                    filter(lambda x: x is not None,
+                                           [contact.homephone, contact.mobilephone, contact.workphone]))))
