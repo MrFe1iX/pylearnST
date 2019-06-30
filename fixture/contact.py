@@ -152,23 +152,27 @@ class ContactHelper:
         wd = self.app.wd
         self.open_user_to_edit_by_index(index)
         firstname = wd.find_element_by_name("firstname").get_attribute("value")
+        middlename = wd.find_element_by_name("middlename").get_attribute("value")
         lastname = wd.find_element_by_name("lastname").get_attribute("value")
+        full_name = " ".join([firstname, middlename, lastname])
         id = wd.find_element_by_name("id").get_attribute("value")
         homephone = wd.find_element_by_name("home").get_attribute("value")
         workphone = wd.find_element_by_name("work").get_attribute("value")
         mobilephone = wd.find_element_by_name("mobile").get_attribute("value")
         # fax = wd.find_element_by_name("fax").get_attribute("value")
-        return Contact(firstname=firstname, lastname=lastname, id=id,
+        return Contact(full_name=full_name, id=id,
                        homephone=homephone, workphone=workphone, mobilephone=mobilephone)
 
     def get_user_from_view_page(self, index):
         wd = self.app.wd
         self.open_user_view_by_index(index)
         text = wd.find_element_by_id("content").text
+        name = re.search("(.*)", text).group(1)
         homephone = re.search("H: (.*)", text).group(1)
         mobilephone = re.search("M: (.*)", text).group(1)
         workphone = re.search("W: (.*)", text).group(1)
-        return Contact(homephone=homephone, workphone=workphone, mobilephone=mobilephone)
+        return Contact(full_name=name, homephone=homephone,
+                       workphone=workphone, mobilephone=mobilephone)
 
     def merge_phones_like_on_home_page(self, contact):
         def clear(s):
