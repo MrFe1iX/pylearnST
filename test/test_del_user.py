@@ -7,7 +7,7 @@ def test_del_first_user(app):
     old_user_list = app.contact.get_user_list()
     if app.contact.count() == 0:
         app.contact.add_new_user(Contact(firstname="111", middlename="111", lastname="111",
-                                       nick="11", email="ylika@mail.cru", address="aJocxvvxcsedr s 21",
+                                       nick="11", email1="ylika@mail.cru", address="aJocxvvxcsedr s 21",
                                        month=6, day="11", year="1998"))
     app.contact.del_first_user()
     assert len(old_user_list) - 1 == app.contact.count()
@@ -19,7 +19,7 @@ def test_del_first_user(app):
 def test_del_some_user(app):
     if app.contact.count() == 0:
         app.contact.add_new_user(Contact(firstname="111", middlename="111", lastname="111",
-                                       nick="11", email="ylika@mail.cru", address="aJocxvvxcsedr s 21",
+                                       nick="11", email1="ylika@mail.cru", address="aJocxvvxcsedr s 21",
                                        month=6, day="11", year="1998"))
     old_user_list = app.contact.get_user_list()
     index = randrange(len(old_user_list))
