@@ -24,7 +24,6 @@ class ContactHelper:
         self.fill_user_form_month(contact.month)
         self.edit_field_value("byear", contact.year)
 
-
     def fill_user_form_day(self, field_day):
         wd = self.app.wd
         if field_day is not None:
@@ -129,8 +128,11 @@ class ContactHelper:
                 last_n = cells[1].text
                 id = element.find_element_by_name("selected[]").get_attribute("value")
                 all_phones = cells[5].text
-                self.user_cache.append(Contact(id=id, firstname=first_n, lastname=last_n,
-                                               all_phones_home_page=all_phones))
+                all_emails = cells[4].text
+                address = cells[3].text
+                self.user_cache.append(Contact(id=id, firstname=first_n, lastname=last_n, address=address,
+                                               all_phones_home_page=all_phones,
+                                               all_emails_home_page=all_emails))
 
         return list(self.user_cache)
 
@@ -152,16 +154,20 @@ class ContactHelper:
         wd = self.app.wd
         self.open_user_to_edit_by_index(index)
         firstname = wd.find_element_by_name("firstname").get_attribute("value")
-        middlename = wd.find_element_by_name("middlename").get_attribute("value")
         lastname = wd.find_element_by_name("lastname").get_attribute("value")
-        full_name = " ".join([firstname, middlename, lastname])
         id = wd.find_element_by_name("id").get_attribute("value")
+        address = wd.find_element_by_name("address").get_attribute("value")
+        email1 = wd.find_element_by_name("email").get_attribute("value")
+        email2 = wd.find_element_by_name("email2").get_attribute("value")
+        email3 = wd.find_element_by_name("email3").get_attribute("value")
         homephone = wd.find_element_by_name("home").get_attribute("value")
+        mobile = wd.find_element_by_name("mobile").get_attribute("value")
         workphone = wd.find_element_by_name("work").get_attribute("value")
-        mobilephone = wd.find_element_by_name("mobile").get_attribute("value")
-        # fax = wd.find_element_by_name("fax").get_attribute("value")
-        return Contact(full_name=full_name, id=id,
-                       homephone=homephone, workphone=workphone, mobilephone=mobilephone)
+        phone2 = wd.find_element_by_name("phone2").get_attribute("value")
+        return Contact(firstname=firstname, lastname=lastname, id=id,
+                       address=address, homephone=homephone,
+                       email1=email1, email2=email2, email3=email3, mobilephone=mobile,
+                       workphone=workphone)
 
     def get_user_from_view_page(self, index):
         wd = self.app.wd
@@ -171,14 +177,5 @@ class ContactHelper:
         homephone = re.search("H: (.*)", text).group(1)
         mobilephone = re.search("M: (.*)", text).group(1)
         workphone = re.search("W: (.*)", text).group(1)
-        return Contact(full_name=name, homephone=homephone,
+        return Contact(homephone=homephone,
                        workphone=workphone, mobilephone=mobilephone)
-
-    def merge_phones_like_on_home_page(self, contact):
-        def clear(s):
-            return re.sub("[() -]", "", s)
-
-        return "\n".join(filter(lambda x: x != "",
-                                map(lambda x: clear(x),
-                                    filter(lambda x: x is not None,
-                                           [contact.homephone, contact.mobilephone, contact.workphone]))))
