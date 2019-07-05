@@ -14,7 +14,7 @@ class ContactHelper:
         self.edit_field_value("middlename", contact.middlename)
         self.edit_field_value("lastname", contact.lastname)
         self.edit_field_value("nickname", contact.nick)
-        self.edit_field_value("email", contact.email)
+        self.edit_field_value("email", contact.email1)
         self.edit_field_value("address", contact.address)
         self.edit_field_value("home", contact.homephone)
         self.edit_field_value("mobile", contact.mobilephone)
