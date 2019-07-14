@@ -5,7 +5,7 @@ import jsonpickle
 import importlib
 import os.path
 from fixture.application import Application
-from fixture.db import DbHelper
+from fixture.db import DbFixture
 
 fixture = None
 target = None
@@ -67,8 +67,8 @@ def load_from_json(file):
 @pytest.fixture(scope="session")
 def db(request):
     db_config = load_config(request.config.getoption("--target"))['db']
-    db_fixture = DbHelper(host=db_config["host"], name=db_config["name"],
-                          user=db_config["user"], password=db_config["password"])
+    db_fixture = DbFixture(host=db_config['host'], database=db_config['database'],
+                           user=db_config['user'], password=db_config['password'])
 
     def fin():
         db_fixture.disconect()

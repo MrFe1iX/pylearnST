@@ -4,9 +4,10 @@
     "username": "admin",
     "password": "secret"
   },
+
   "db": {
     "host": "localhost",
-    "name":"addressbook",
+    "database": "addressbook",
     "user": "root",
     "password": ""
   }
