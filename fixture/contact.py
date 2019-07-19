@@ -87,6 +87,16 @@ class ContactHelper:
         self.app.open_home_page()
         self.user_cache = None
 
+    def del_some_user_by_id(self, id):
+        wd = self.app.wd
+        self.select_some_user_by_id(id)
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        wd.switch_to.alert.accept()
+        sleep(0.3)
+        wd.find_element_by_css_selector("div.msgbox")
+        self.app.open_home_page()
+        self.user_cache = None
+
     def del_first_user(self):
         wd = self.app.wd
         self.select_some_user(0)
@@ -101,6 +111,11 @@ class ContactHelper:
         wd = self.app.wd
         self.app.open_home_page()
         wd.find_elements_by_name("selected[]")[index].click()
+
+    def select_some_user_by_id(self, id):
+        wd = self.app.wd
+        self.app.open_home_page()
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
     def del_all_user(self):
         wd = self.app.wd
