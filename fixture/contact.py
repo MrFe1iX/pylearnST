@@ -1,3 +1,4 @@
+from selenium.webdriver.support.select import Select
 import re
 from time import sleep
 from model.contact import Contact
@@ -194,3 +195,12 @@ class ContactHelper:
         workphone = re.search("W: (.*)", text).group(1)
         return Contact(homephone=homephone,
                        workphone=workphone, mobilephone=mobilephone)
+
+    def add_user_to_group(self, contact_id, group_id):
+        wd = self.app.wd
+        self.app.open_home_page()
+        # нажать на кнопку добавления нового контакта
+        self.select_some_user_by_id(contact_id)
+        wd.find_element_by_name("to_group").click()
+        Select(wd.find_element_by_css_selector("select[name=\"to_group\"]")).select_by_value('%s' % group_id)
+        wd.find_element_by_xpath("//input[@value = 'Add to']").click()
