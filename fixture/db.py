@@ -50,5 +50,19 @@ class DbFixture:
             cursor.close()
         return list
 
+    def get_user_by_id(self, id_cont):
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute("select id, firstname, lastname, address, mobile, home, work, phone2, email, email2, email3 "
+                           "from addressbook where deprecated = '0000-00-00 00:00:00' and id='%s'" % id_cont)
+            for row in cursor:
+                (id, firstname, lastname, address, mobilephone, homephone, workphone, phone2, email1, email2, email3) = row
+                contact_sel = (Contact(id=str(id), firstname=firstname, lastname=lastname, address=address,
+                                       mobilephone=mobilephone, homephone=homephone, workphone=workphone, email1=email1, email2=email2,
+                                       email3=email3))
+        finally:
+            cursor.close()
+        return contact_sel
+
     def disconect(self):
         self.connection.close()
