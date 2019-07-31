@@ -1,5 +1,4 @@
 from model.contact import Contact
-import re
 
 
 def test_name_user(app, db):
@@ -10,15 +9,11 @@ def test_name_user(app, db):
                     workphone="372378782"))
     list = app.contact.get_user_list()
     for contact in list:
-        assert contact.firstname == (db.get_user_list(contact.id).firstname).strip()
-        assert contact.lastname == (db.get_user_list(contact.id).lastname).strip()
-        assert contact.address == (db.get_user_list(contact.id).address).strip()
+        assert contact.firstname == (db.get_user_list(contact.id).firstname)
+        assert contact.lastname == (db.get_user_list(contact.id).lastname)
+        assert contact.address == (db.get_user_list(contact.id).address)
         assert contact.all_emails_home_page == merge_emails(db.get_user_list(contact.id))
         assert contact.all_phones_home_page == merge_phones_on_home_page(db.get_user_list(contact.id))
-
-
-def clear(s):
-    return re.sub("[() -]", "", s)
 
 
 def merge_phones_on_home_page(contact):
