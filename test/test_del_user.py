@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
+import pytest
 from model.contact import Contact
 
 
@@ -23,8 +24,10 @@ def test_del_some_user(app, db, check_ui):
                                        month=6, day="11", year="1998"))
     old_user_list = db.get_user_list()
     contact = random.choice(old_user_list)
-    app.contact.del_some_user_by_id(contact.id)
-    assert len(old_user_list) - 1 == app.contact.count()
+    with pytest.allure.step('Удаление случайного контакта'):
+        app.contact.del_some_user_by_id(contact.id)
+    with pytest.allure.step('Проверка что контактов стало меньше на 1'):
+        assert len(old_user_list) - 1 == app.contact.count()
     new_user_list = db.get_user_list()
     old_user_list.remove(contact)
     assert old_user_list == new_user_list

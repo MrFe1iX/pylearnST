@@ -1,5 +1,6 @@
 from model.group import Group
 from random import randrange
+import pytest
 
 
 def test_edit_first_group(app):
@@ -8,7 +9,8 @@ def test_edit_first_group(app):
     group.id = old_group[0].id
     if app.group.count() == 0:
         app.group.create(Group(name="Lost", header="head", footer="foot"))
-    app.group.edit_first(group)
+    with pytest.allure.step('Редактирвоание первой группы'):
+        app.group.edit_first(group)
     assert len(old_group) == app.group.count()
     new_group = app.group.get_group_list()
     old_group[0] = group
@@ -22,7 +24,8 @@ def test_edit_some_group(app):
     group = Group(name="EditTest", header="Edit test", footer="Edit test")
     index = randrange(len(old_group))
     group.id = old_group[index].id
-    app.group.edit_by_index(group, index)
+    with pytest.allure.step('Редктирование случайной группы'):
+        app.group.edit_by_index(group, index)
     assert len(old_group) == app.group.count()
     new_group = app.group.get_group_list()
     old_group[index] = group
